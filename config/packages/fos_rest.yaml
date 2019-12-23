@@ -5,10 +5,12 @@ fos_rest:
     routing_loader:
         include_format: false
         default_format: json
+    body_listener: true
     view:
         view_response_listener:  true
         formats:
           json: true
+    param_fetcher_listener: true
     exception:
         enabled: true
 #            App\Exception\MyException: 403

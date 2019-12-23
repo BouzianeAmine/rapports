@@ -75,6 +75,8 @@
       <path value="$PROJECT_DIR$/../vendor/zendframework/zend-eventmanager" />
       <path value="$PROJECT_DIR$/../vendor/ocramius/package-versions" />
       <path value="$PROJECT_DIR$/../vendor/ocramius/proxy-manager" />
+      <path value="$PROJECT_DIR$/../vendor/symfony/validator" />
+      <path value="$PROJECT_DIR$/../vendor/symfony/translation-contracts" />
     </include_path>
   </component>
   <component name="PhpProjectSharedConfiguration" php_language_level="7.1" />

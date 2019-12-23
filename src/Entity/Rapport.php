@@ -22,12 +22,12 @@ class Rapport
     private $name;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=255,nullable=true)
      */
     private $type;
 
     /**
-     * @ORM\Column(type="blob")
+     * @ORM\Column(type="blob",nullable=true)
      */
     private $data;
 
