@@ -1,13 +1,12 @@
 import { HttpClient } from '@angular/common/http';
 import { Component } from '@angular/core';
-import { convert } from '../conversion';
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
-  title = 'frontRapportProject';
+  title = '';
   fileBlob;
   b64Blob;
 
@@ -27,19 +26,28 @@ export class AppComponent {
     if (event.target.value) {
       const file = event.target.files[0] || event.dataTransfer.files[0];
       const type = file.type;
+      console.log(file);
       this.changeFile(file).then((base64: string): any => {
-        let contentType = base64.split(',')[0];
         let content =base64.split(',')[1];
-        this.fileBlob = convert(content);
+        this.fileBlob = this.convertToBlob(content,type);
         const data=
           {
-            name:"testt",
-            blob:this.fileBlob,
-            type:contentType
+            name:file.name,
+            blob:URL.createObjectURL(this.fileBlob),
+            type:type
         };
         console.log(data);
         fetch("http://localhost:8000/api/rapport",{method:"POST",body:JSON.stringify(data)}).then(res=>res.json()).then(data=>console.log(data)).catch(err=>console.error(err));
       });
     } else alert('Nothing')
+  }
+  private convertToBlob(b64Data,contentType){
+    const byteCharacters = atob(b64Data);
+    const byteNumbers = new Array(byteCharacters.length);
+    for (let i = 0; i < byteCharacters.length; i++) {
+        byteNumbers[i] = byteCharacters.charCodeAt(i);
+    }
+    const byteArray = new Uint8Array(byteNumbers);
+    return new Blob([byteArray], {type: contentType});
   }
 }

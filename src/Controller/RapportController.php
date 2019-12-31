@@ -56,7 +56,7 @@ class RapportController extends AbstractFOSRestController
             return $this->json($data);
         }
 
-        return $this->view($data,Response::HTTP_CREATED);
+        return $this->view($data['blob'],Response::HTTP_CREATED);
        // return $this->view("message error",Response::HTTP_BAD_REQUEST);
     }
 }
