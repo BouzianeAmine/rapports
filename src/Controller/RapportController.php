@@ -9,6 +9,7 @@ use FOS\RestBundle\Controller\AbstractFOSRestController;
 use FOS\RestBundle\Controller\Annotations as Rest;
 use FOS\RestBundle\Request\ParamFetcher;
 use FOS\RestBundle\View\View;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
 class RapportController extends AbstractFOSRestController
@@ -34,21 +35,28 @@ class RapportController extends AbstractFOSRestController
     }
 
     /**
-     * @Rest\RequestParam(name="name",description="nom du rapport")
-     * @param ParamFetcher $pf
+     * @Rest\Post("api/rapport",name="post_rapport")
+     *
+     * @param Request $request
      * @return View
      */
-    public function postRapportAction(ParamFetcher $pf){
-        $name= $pf->get('name');
+    public function postRapport(Request $request){
+        $data= json_decode($request->getContent(),true);
+        $name= $data['name'];
+        $type= $data['type'];
+        $blob= $data['blob'];
+        $rapport=new Rapport();
         if($name){
-            $rapport=new Rapport();
-            $rapport->setName($name);
 
+            $rapport->setName($name);
+            $rapport->setType($type);
+            $rapport->setData($blob);
             $this->man->persist($rapport);
             $this->man->flush();
-
-            return $this->view($rapport,Response::HTTP_CREATED);
+            return $this->json($data);
         }
-        return $this->view("Error",Response::HTTP_BAD_REQUEST);
+
+        return $this->view($data,Response::HTTP_CREATED);
+       // return $this->view("message error",Response::HTTP_BAD_REQUEST);
     }
 }
