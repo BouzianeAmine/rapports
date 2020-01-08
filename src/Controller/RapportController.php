@@ -29,6 +29,10 @@ class RapportController extends AbstractFOSRestController
         $this->man = $man;
     }
 
+    /**
+     * @Rest\Get(path="/rapports",name="get_all_rapports")
+     * @return View
+     */
     public function getRapportsAction()
     {
         return $this->view($this->rep->findAll(),Response::HTTP_OK);
