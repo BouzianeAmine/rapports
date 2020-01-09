@@ -37,7 +37,7 @@ export class AppComponent {
             type:type
         };
         console.log(data);
-        fetch("http://localhost:8000/api/rapport",{method:"POST",body:JSON.stringify(data)}).then(res=>res.json()).then(data=>console.log(data)).catch(err=>console.error(err));
+        fetch("http://localhost:8000/api/rapport",{method:"POST",body:JSON.parse(JSON.stringify(data))}).then(res=>res.json()).then(data=>console.log(data)).catch(err=>console.error(err));
       });
     } else alert('Nothing')
   }

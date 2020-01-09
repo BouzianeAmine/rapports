@@ -7,8 +7,8 @@ use App\Repository\RapportRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use FOS\RestBundle\Controller\AbstractFOSRestController;
 use FOS\RestBundle\Controller\Annotations as Rest;
-use FOS\RestBundle\Request\ParamFetcher;
 use FOS\RestBundle\View\View;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -40,27 +40,13 @@ class RapportController extends AbstractFOSRestController
 
     /**
      * @Rest\Post("api/rapport",name="post_rapport")
-     *
-     * @param Request $request
+     * @ParamConverter("rapport",converter="fos_rest.request_body") //celui c'est lui qui dis comme quoi convertir le request on objet
+     * @param Rapport $rapport
      * @return View
      */
-    public function postRapport(Request $request){
-        $data= json_decode($request->getContent(),true);
-        $name= $data['name'];
-        $type= $data['type'];
-        $blob= $data['blob'];
-        $rapport=new Rapport();
-        if($name){
-
-            $rapport->setName($name);
-            $rapport->setType($type);
-            $rapport->setData($blob);
-            $this->man->persist($rapport);
-            $this->man->flush();
-            return $this->json($data);
-        }
-
-        return $this->view($data['blob'],Response::HTTP_CREATED);
-       // return $this->view("message error",Response::HTTP_BAD_REQUEST);
+    public function postRapport(Rapport $rapport){
+        $this->man->persist($rapport);
+        $this->man->flush();
+        return $this->view($rapport,Response::HTTP_OK);
     }
 }
