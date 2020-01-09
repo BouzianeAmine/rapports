@@ -4,6 +4,8 @@ fos_rest:
 #    allowed_methods_listener:  true
     body_converter:
         enabled: true
+        validator: true
+        validation_errors_argument: violations
     routing_loader:
         include_format: false
         default_format: json
@@ -22,6 +24,6 @@ fos_rest:
 #            App\Exception\MyException: Forbidden area.
     format_listener:
         rules:
-            - { path: ^/, prefer_extension: true, fallback_format: 'json', priorities: [ 'json' ] }
+            - { path: ^/, prefer_extension: true, fallback_format: 'json', priorities: [ 'json','txt' ] }
 sensio_framework_extra:
     view: { annotations: true }

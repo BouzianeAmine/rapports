@@ -30,7 +30,7 @@ class RapportController extends AbstractFOSRestController
     }
 
     /**
-     * @Rest\Get(path="/rapports",name="get_all_rapports")
+     * @Rest\Get(path="api/rapports",name="get_all_rapports")
      * @return View
      */
     public function getRapportsAction()
@@ -47,6 +47,6 @@ class RapportController extends AbstractFOSRestController
     public function postRapport(Rapport $rapport){
         $this->man->persist($rapport);
         $this->man->flush();
-        return $this->view($rapport,Response::HTTP_OK);
+        return $this->view($rapport,Response::HTTP_CREATED);
     }
 }
