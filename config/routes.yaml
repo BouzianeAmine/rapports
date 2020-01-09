@@ -7,4 +7,4 @@ api_login_check:
 rapports:
     type: rest
     resource: App\Controller\RapportController
-    prefix: api
+    prefix: /api

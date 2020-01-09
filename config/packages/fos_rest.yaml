@@ -4,8 +4,7 @@ fos_rest:
 #    allowed_methods_listener:  true
     body_converter:
         enabled: true
-        validator: true
-        validation_errors_argument: violations
+
     routing_loader:
         include_format: false
         default_format: json
