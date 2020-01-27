@@ -30,7 +30,7 @@ class RapportController extends AbstractFOSRestController
     }
 
     /**
-     * @Rest\Get(path="api/rapports",name="get_all_rapports")
+     * @Rest\Get(path="rapports",name="get_all_rapports")
      * @return View
      */
     public function getRapportsAction()

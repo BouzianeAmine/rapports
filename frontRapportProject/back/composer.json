@@ -1,0 +1,17 @@
+{
+    "name": "amine/back",
+    "authors": [
+        {
+            "name": "Bouziane Amine",
+            "email": "aminebouz84@gmail.com"
+        }
+    ],
+    "require": {
+        "symfony/dotenv": "^5.0"
+    },
+    "autoload": {
+        "classmap": [
+            "bootstrap.php"
+        ]
+    }
+}
