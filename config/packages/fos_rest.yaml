@@ -18,11 +18,9 @@ fos_rest:
     param_fetcher_listener: true
     exception:
         enabled: true
-#            App\Exception\MyException: 403
-#        messages:
-#            App\Exception\MyException: Forbidden area.
     format_listener:
         rules:
             - { path: ^/, prefer_extension: true, fallback_format: 'json', priorities: [ 'json','txt' ] }
+
 sensio_framework_extra:
     view: { annotations: true }

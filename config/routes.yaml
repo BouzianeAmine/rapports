@@ -8,3 +8,6 @@ rapports:
     type: rest
     resource: App\Controller\RapportController
     prefix: /api
+
+logout:
+    path: logout
