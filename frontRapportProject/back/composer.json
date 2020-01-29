@@ -1,0 +1,19 @@
+{
+    "name": "amine/back",
+    "authors": [
+        {
+            "name": "Bouziane Amine",
+            "email": "aminebouz84@gmail.com"
+        }
+    ],
+    "require": {
+        "symfony/dotenv": "^5.0",
+        "vlucas/phpdotenv": "^4.1"
+    },
+
+    "autoload" : {
+        "psr-4": {
+            "Src\\": "src/"
+        }
+    }
+}
