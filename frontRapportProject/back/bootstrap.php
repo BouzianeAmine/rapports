@@ -24,7 +24,8 @@ use src\User\Membre;
 
 header("Access-Control-Allow-Origin: *");
 header('Access-Control-Allow-Methods: GET, POST, DELETE');
-header('Content-Type: application/json');
+header("Content-Type: application/json; charset=UTF-8");
+header("Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With");
 
 $config['rewrite_short_tags'] = FALSE;
 
@@ -34,6 +35,7 @@ $app = new Silex\Application();
 /*$app->register(new JDesrosiers\Silex\Provider\CorsServiceProvider(), [
   "cors.allowOrigin" => "*",
 ]);*/
+$app->register(new Silex\Provider\SessionServiceProvider());
 
 $dotenv = Dotenv::createImmutable(__DIR__);
 $dotenv->load();
@@ -61,24 +63,35 @@ $rapport=new Rapport("rapport","pdf","zfjkzkefkzegfkzhegfe");
 //var_dump($_SESSION['auth']);//signout done
 
 
+$app->get('/connect', function() use($membre,$user,$app){
+  $membre->signIn($user);
+  $app['session']->set('user',$user);
+  return json_encode($user);
+});
 
-$app->get('/rapport', function () use($raprepo,$user,$sessions) {
-  if($sessions->testSession()) {
-    return json_encode($raprepo->getRapportsbyUser($user));
+$app->get('/rapport', function () use($raprepo,$user,$sessions,$app) {
+  if($app['session']->get('user')) {
+    return json_encode(array("rapports"=>$raprepo->getRapportsbyUser($app['session']->get('user')),"user"=>$app['session']->get('user')));
   }else return json_encode($_SESSION['auth']);
 });
 
-$app->get('/connect', function() use($membre,$user){
-    $membre->signIn($user);
-    return json_encode($_SESSION['auth']);
+$app->get('/deconnect',function() use($membre,$user,$app){
+    $membre->signOut($user);
+    $app['session']->set('user',null);
+    return json_encode($app['session']->get('user'));
 });
 
-$app->get('/deconnect',function() use($membre,$user){
-    $membre->signOut($user);
-    return json_encode($_SESSION['auth']);
+$app->get('/rapports',function() use($raprepo){
+  return json_encode($raprepo->getRapports());
 });
 //$app["cors-enabled"]($app);
+
+$app->get('/isAuth', function() use($sessions){
+  return json_encode($sessions->getUserConnectedByCookies()['login']);
+});
+
 $app->run();
+
 
 
 ?>

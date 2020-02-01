@@ -6,7 +6,7 @@ include('../models/User.php');
 
 use PDO;
 use src\System\Connector;
-use src\Models\Rapport; 
+use src\Models\Rapport;
 use src\Models\User;
 
 class RapportRepository{
@@ -15,7 +15,7 @@ class RapportRepository{
 
     public function __construct(Connector $connector)
     {
-        $this->connector=$connector->getConnection();   
+        $this->connector=$connector->getConnection();
     }
 
     public function addRapport(Rapport $rap)
@@ -32,4 +32,11 @@ class RapportRepository{
         $prep->execute(array(':email'=>$user->email));
         return $prep->fetchAll(PDO::FETCH_ASSOC);
     }
-}  
+
+    public function getRapports(){
+      $stat='select * from rapport';
+      $prep=$this->connector->prepare($stat);
+      $prep->execute();
+      return $prep->fetchAll(PDO::FETCH_ASSOC);
+    }
+}

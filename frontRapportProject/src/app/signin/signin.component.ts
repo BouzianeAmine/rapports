@@ -20,7 +20,7 @@ export class SigninComponent implements OnInit {
       password: this.password
     }
     fetch("http://localhost:8000/connect", { method: 'POST', mode: 'cors' ,body: JSON.parse(JSON.stringify(user))})
-      .then(res => console.log(res));
+      .then(res => res.json()).then(value=>console.log(value));
   }
 
 }

@@ -10,6 +10,7 @@ export class RapportsComponent implements OnInit {
   constructor() { }
 
   ngOnInit() {
+    this.getRapports();
   }
 
   changeFile(file) {
@@ -48,6 +49,10 @@ export class RapportsComponent implements OnInit {
     }
     const byteArray = new Uint8Array(byteNumbers);
     return new Blob([byteArray], {type: contentType});
+  }
+
+  getRapports(){
+    fetch('http://localhost:8000/rapports',{method:'GET',mode:'cors'}).then(res=>res.json()).then(rapports=>console.log(rapports))
   }
 
 }

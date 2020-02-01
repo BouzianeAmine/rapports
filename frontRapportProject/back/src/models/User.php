@@ -29,8 +29,11 @@ class User{
     }
 
 
-    public function  demandeRapportPormotionUne(){}
-    public function demandeRapportPormotionUneetdeux(){$this->demandeRapportPormotionUne();}
+    public function  demandeRapportPormotionUne(){
+      /*il doit déposer le rapport de la première année */
+      $this->solde=2;
+    }
+    public function demandeRapportPormotionUneetdeux(){$this->demandeRapportPormotionUne();$this->solde++;}
 
 }
 
