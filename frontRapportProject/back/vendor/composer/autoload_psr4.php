@@ -19,5 +19,6 @@ return array(
     'Psr\\Log\\' => array($vendorDir . '/psr/log/Psr/Log'),
     'Psr\\Container\\' => array($vendorDir . '/psr/container/src'),
     'PhpOption\\' => array($vendorDir . '/phpoption/phpoption/src/PhpOption'),
+    'JDesrosiers\\Silex\\Provider\\' => array($vendorDir . '/jdesrosiers/silex-cors-provider/src'),
     'Dotenv\\' => array($vendorDir . '/vlucas/phpdotenv/src'),
 );

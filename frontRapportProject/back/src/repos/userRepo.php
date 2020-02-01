@@ -14,7 +14,7 @@ class UserRepository {
 
     public function __construct(Connector $connector)
     {
-        $this->connector=$connector->getConnection();   
+        $this->connector=$connector->getConnection();
     }
 
     public function addUser(User $user)
@@ -25,7 +25,7 @@ class UserRepository {
         $stat='Insert Into user (firstname,lastname,password,email,promotion,telephone,naissance,linkedin,solde) values (:firstname,:lastname,:password,:email,:promotion,:telephone,:naissance,:linkedin,:solde)';
         $prep=$this->connector->prepare($stat);
         return $prep->execute(array(':firstname'=>$user->firstname,':lastname'=>$user->lastname,':password'=>$user->password,'email'=>$user->email,'promotion'=>$user->promotion,':telephone'=>$user->telephone,'naissance'=>$user->naissance,'linkedin'=>$user->linkedin,'solde'=>$user->solde));
-        
+
     }
 
     public function updateUser(User $user){
@@ -47,6 +47,13 @@ class UserRepository {
         if($prep->rowCount()>0){
             return true;
         }else return false;
+    }
+
+    public function getUserByemail($email){
+        $stat='select * from user where email=:email';
+        $prep=$this->connector->prepare($stat);
+        $prep->execute(array(':email'=>$email));
+        return $prep->fetchAll(PDO::FETCH_ASSOC);
     }
 
 }

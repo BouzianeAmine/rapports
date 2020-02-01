@@ -9,7 +9,8 @@
     "require": {
         "symfony/dotenv": "^5.0",
         "vlucas/phpdotenv": "^4.1",
-        "silex/silex": "~2.0"
+        "silex/silex": "~2.0",
+        "jdesrosiers/silex-cors-provider": "~1.0"
     },
 
     "autoload" : {

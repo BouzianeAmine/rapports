@@ -31,6 +31,10 @@ class ComposerStaticInita693960a500b0bb380b888bc6c77f2c1
             'Psr\\Container\\' => 14,
             'PhpOption\\' => 10,
         ),
+        'J' => 
+        array (
+            'JDesrosiers\\Silex\\Provider\\' => 27,
+        ),
         'D' => 
         array (
             'Dotenv\\' => 7,
@@ -89,6 +93,10 @@ class ComposerStaticInita693960a500b0bb380b888bc6c77f2c1
         'PhpOption\\' => 
         array (
             0 => __DIR__ . '/..' . '/phpoption/phpoption/src/PhpOption',
+        ),
+        'JDesrosiers\\Silex\\Provider\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/jdesrosiers/silex-cors-provider/src',
         ),
         'Dotenv\\' => 
         array (

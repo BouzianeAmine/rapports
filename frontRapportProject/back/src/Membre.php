@@ -57,7 +57,7 @@ class Membre implements iUserBehavior
     $this->session->startSession();
     $this->session->setCookie($user);
     return true;
-    // i need a checking factory example FactoryUserChecking or FactorySessionChecking 
+    // i need a checking factory example FactoryUserChecking or FactorySessionChecking
   }
 
   public function signOut(User $user)

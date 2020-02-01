@@ -4,8 +4,58 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "c8fd42b932d97117ecc2fdfb7c1e7353",
+    "content-hash": "e4034a8adb8ee22342078ae70a6593b2",
     "packages": [
+        {
+            "name": "jdesrosiers/silex-cors-provider",
+            "version": "v1.6.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/jdesrosiers/silex-cors-provider.git",
+                "reference": "ce97ca190046e2ea5cbb2d26b89e1cb13c2eda8c"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/jdesrosiers/silex-cors-provider/zipball/ce97ca190046e2ea5cbb2d26b89e1cb13c2eda8c",
+                "reference": "ce97ca190046e2ea5cbb2d26b89e1cb13c2eda8c",
+                "shasum": ""
+            },
+            "require": {
+                "silex/silex": "~2.0"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "3.7.*",
+                "symfony/browser-kit": "2.3.*"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "JDesrosiers\\Silex\\Provider\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Jason Desrosiers",
+                    "email": "jdesrosi@gmail.com"
+                }
+            ],
+            "description": "A silex service provider that adds CORS services to silex",
+            "keywords": [
+                "cors",
+                "cross",
+                "origin",
+                "provider",
+                "resource",
+                "service",
+                "sharing",
+                "silex"
+            ],
+            "time": "2018-03-25T18:22:39+00:00"
+        },
         {
             "name": "phpoption/phpoption",
             "version": "1.7.2",

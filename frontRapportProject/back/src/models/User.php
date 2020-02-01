@@ -12,7 +12,7 @@ class User{
     public $linkedin;
     public $solde;
     public function __construct($firstname,$lastname,$password,$email,$promotion,$tel,$naissance,$linkedin){
-        
+
         $this->firstname=$firstname;
         $this->lastname=$lastname;
         $this->email=$email;
@@ -27,6 +27,7 @@ class User{
         else {$this->demandeRapportPormotionUneetdeux();}
 
     }
+
 
     public function  demandeRapportPormotionUne(){}
     public function demandeRapportPormotionUneetdeux(){$this->demandeRapportPormotionUne();}
