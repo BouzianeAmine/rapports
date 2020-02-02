@@ -11,6 +11,10 @@ import { UpdateUserComponent } from './update-user/update-user.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FormsModule } from '@angular/forms';
 import { RapportsComponent } from './rapports/rapports.component';
+import {MatFormFieldModule} from '@angular/material/form-field';
+import { MatTableModule } from '@angular/material'  
+import {MatInputModule} from '@angular/material';
+
 const routes: Routes = [
   {
     path: 'home',
@@ -50,7 +54,10 @@ const routes: Routes = [
     HttpClientModule,
     RouterModule.forRoot(routes),
     BrowserAnimationsModule,
-    FormsModule
+    FormsModule,
+    MatFormFieldModule,
+    MatTableModule,
+    MatInputModule
   ],
   providers: [],
   bootstrap: [AppComponent]

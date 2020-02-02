@@ -1,7 +1,7 @@
 <?php
 
 require 'vendor/autoload.php';
-error_reporting(E_ALL ^ E_WARNING);
+error_reporting(0);
 
 include('./src/system/Connector.php');
 include('./src/models/User.php');
@@ -23,50 +23,34 @@ use src\Repositories\UserRepository;
 use src\User\Membre;
 
 header("Access-Control-Allow-Origin: *");
-header('Access-Control-Allow-Methods: GET, POST, DELETE');
+header("Access-Control-Allow-Methods: GET, POST, DELETE");
 header("Content-Type: application/json; charset=UTF-8");
-header("Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With");
+header("Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-Headers, Access-Control-Allow-Methods, Authorization, X-Requested-With");
 
 $config['rewrite_short_tags'] = FALSE;
 
 $app = new Silex\Application();
 
 
-/*$app->register(new JDesrosiers\Silex\Provider\CorsServiceProvider(), [
-  "cors.allowOrigin" => "*",
-]);*/
+
 $app->register(new Silex\Provider\SessionServiceProvider());
 
 $dotenv = Dotenv::createImmutable(__DIR__);
 $dotenv->load();
-
-//var_dump(getenv('DB_DATABASE'));
-
 $con=new Connector();
 $repo=new UserRepository($con);
 $raprepo=new RapportRepository($con);
 $user=new User("amine","bouziane","12345678","aminebouz84@gmail.com","1","0769205922","08/09/1995","http://kfhkksssf.com");
-//$count=$repo->addUser($user); adding the user to database
-//$res=$repo->deleteUser($user); deleting a user from the database
 $sessions=new SessionFactory($app);
 $membre=new Membre($repo,$sessions,$raprepo);
-
-//$membre->signIn($user);
 $rapport=new Rapport("rapport","pdf","zfjkzkefkzegfkzhegfe");
-//var_dump($rapport);
-//$membre->addRapport($rapport);
-//var_dump($raprepo->getRapportsbyUser($user));
-//var_dump($_SESSION['auth']); //signin is done nicelyyyyy hamdollah
-//var_dump($rapport);
 
-//$membre->signOut($user);
-//var_dump($_SESSION['auth']);//signout done
-
-//TO-DO set it back to post and work with the request as parameter in the function()
-$app->post('/connect', function(Request $req) use($membre,$repo,$app){
+$app->post('/connect', function(Request $req) use($membre,$repo){
   $current_user=$repo->getUserByemail(json_decode($req->getContent(),true)['email']);
-  $membre->signIn($current_user);
-  return json_encode($current_user);
+  if($membre->signIn($current_user)){
+    return $current_user;
+  }else
+    return json_encode(false);
 });
 
 $app->get('/rapport', function () use($raprepo,$user,$sessions,$repo) {

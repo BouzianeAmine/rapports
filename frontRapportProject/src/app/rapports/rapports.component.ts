@@ -1,4 +1,13 @@
 import { Component, OnInit } from '@angular/core';
+import {MatTableDataSource} from '@angular/material/table';
+
+export interface Rapport {
+  id:number;
+  name: string;
+  type: string;
+  data: string;
+  email:string;
+}
 
 @Component({
   selector: 'app-rapports',
@@ -6,11 +15,15 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./rapports.component.css']
 })
 export class RapportsComponent implements OnInit {
+  displayedColumns: string[] = ['name', 'type', 'data'];
+  dataSource:MatTableDataSource<Rapport>;
   fileBlob:Blob;
-  constructor() { }
+  rapports:Array<Rapport>;
+  constructor() { 
+    this.getRapports();
+  }
 
   ngOnInit() {
-    this.getRapports();
   }
 
   changeFile(file) {
@@ -52,7 +65,10 @@ export class RapportsComponent implements OnInit {
   }
 
   getRapports(){
-    fetch('http://localhost:8000/rapports',{method:'GET',mode:'cors'}).then(res=>res.json()).then(rapports=>console.log(rapports))
+     fetch('http://localhost:8000/rapports',{method:'GET',mode:'cors'}).then(res=>res.json()).then((rapports:Array<Rapport>)=>{ this.dataSource = new MatTableDataSource(rapports);});
   }
 
+  applyFilter(filterValue: string) {
+    this.dataSource.filter = filterValue.trim().toLowerCase();
+  }
 }

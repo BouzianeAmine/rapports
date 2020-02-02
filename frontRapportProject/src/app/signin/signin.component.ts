@@ -18,9 +18,9 @@ export class SigninComponent implements OnInit {
     const user = {
       email: this.email,
       password: this.password
-    }
-    fetch("http://localhost:8000/connect", { method: 'POST', mode: 'no-cors' ,body:JSON.parse(JSON.stringify(user))})
-      .then(res => res.json()).then(value=>console.log(value));
+    };
+    fetch("http://localhost:8000/connect", { method: 'POST',mode:'cors',body:JSON.parse(JSON.stringify(user))})
+      .then(value=>value.json()).then(user=>console.log(user));
   }
 
 }
