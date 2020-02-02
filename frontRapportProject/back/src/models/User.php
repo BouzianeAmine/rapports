@@ -35,6 +35,154 @@ class User{
     }
     public function demandeRapportPormotionUneetdeux(){$this->demandeRapportPormotionUne();$this->solde++;}
 
+  /**
+   * @return mixed
+   */
+  public function getEmail()
+  {
+    return $this->email;
+  }
+
+  /**
+   * @return mixed
+   */
+  public function getFirstname()
+  {
+    return $this->firstname;
+  }
+
+  /**
+   * @return mixed
+   */
+  public function getLastname()
+  {
+    return $this->lastname;
+  }
+
+  /**
+   * @return mixed
+   */
+  public function getNaissance()
+  {
+    return $this->naissance;
+  }
+
+  /**
+   * @return mixed
+   */
+  public function getLinkedin()
+  {
+    return $this->linkedin;
+  }
+
+  /**
+   * @return mixed
+   */
+  public function getPassword()
+  {
+    return $this->password;
+  }
+
+  /**
+   * @return mixed
+   */
+  public function getPromotion()
+  {
+    return $this->promotion;
+  }
+
+  /**
+   * @return int
+   */
+  public function getSolde()
+  {
+    return $this->solde;
+  }
+
+  /**
+   * @return mixed
+   */
+  public function getTelephone()
+  {
+    return $this->telephone;
+  }
+
+  /**
+   * @param mixed $email
+   */
+  public function setEmail($email)
+  {
+    $this->email = $email;
+  }
+
+  /**
+   * @param mixed $firstname
+   */
+  public function setFirstname($firstname)
+  {
+    $this->firstname = $firstname;
+  }
+
+  /**
+   * @param mixed $lastname
+   */
+  public function setLastname($lastname)
+  {
+    $this->lastname = $lastname;
+  }
+
+  /**
+   * @param mixed $linkedin
+   */
+  public function setLinkedin($linkedin)
+  {
+    $this->linkedin = $linkedin;
+  }
+
+  /**
+   * @param mixed $naissance
+   */
+  public function setNaissance($naissance)
+  {
+    $this->naissance = $naissance;
+  }
+
+  /**
+   * @param mixed $password
+   */
+  public function setPassword($password)
+  {
+    $this->password = $password;
+  }
+
+  /**
+   * @param mixed $promotion
+   */
+  public function setPromotion($promotion)
+  {
+    $this->promotion = $promotion;
+  }
+
+  /**
+   * @param int $solde
+   */
+  public function setSolde($solde)
+  {
+    $this->solde = $solde;
+  }
+
+  /**
+   * @param mixed $telephone
+   */
+  public function setTelephone($telephone)
+  {
+    $this->telephone = $telephone;
+  }
+
+  public static function userFromArray($array){
+    return new User($array['firstname'],$array['lastname'],$array['password'],$array['email'],$array['promotion'],$array['telephone'],$array['naissance'],$array['linkedin']);
+  }
 }
+
 
 ?>

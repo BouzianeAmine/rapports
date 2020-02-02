@@ -48,7 +48,7 @@ $raprepo=new RapportRepository($con);
 $user=new User("amine","bouziane","12345678","aminebouz84@gmail.com","1","0769205922","08/09/1995","http://kfhkksssf.com");
 //$count=$repo->addUser($user); adding the user to database
 //$res=$repo->deleteUser($user); deleting a user from the database
-$sessions=new SessionFactory();
+$sessions=new SessionFactory($app);
 $membre=new Membre($repo,$sessions,$raprepo);
 
 //$membre->signIn($user);
@@ -62,34 +62,35 @@ $rapport=new Rapport("rapport","pdf","zfjkzkefkzegfkzhegfe");
 //$membre->signOut($user);
 //var_dump($_SESSION['auth']);//signout done
 
-
-$app->get('/connect', function() use($membre,$user,$app){
-  $membre->signIn($user);
-  $app['session']->set('user',$user);
-  return json_encode($user);
+//TO-DO set it back to post and work with the request as parameter in the function()
+$app->post('/connect', function(Request $req) use($membre,$repo,$app){
+  $current_user=$repo->getUserByemail(json_decode($req->getContent(),true)['email']);
+  $membre->signIn($current_user);
+  return json_encode($current_user);
 });
 
-$app->get('/rapport', function () use($raprepo,$user,$sessions,$app) {
-  if($app['session']->get('user')) {
-    return json_encode(array("rapports"=>$raprepo->getRapportsbyUser($app['session']->get('user')),"user"=>$app['session']->get('user')));
-  }else return json_encode($_SESSION['auth']);
+$app->get('/rapport', function () use($raprepo,$user,$sessions,$repo) {
+  if($sessions->testSession()) {
+    return json_encode(array("rapports"=>$raprepo->getRapportsbyUser($repo->getUserByemail($sessions->getUserConnectedByCookies())),"user"=>$user));
+  }else return json_encode($sessions->app['session']->get('auth'));
 });
 
 $app->get('/deconnect',function() use($membre,$user,$app){
     $membre->signOut($user);
-    $app['session']->set('user',null);
-    return json_encode($app['session']->get('user'));
+    return json_encode($app['session']->get('auth'));
 });
 
 $app->get('/rapports',function() use($raprepo){
   return json_encode($raprepo->getRapports());
 });
-//$app["cors-enabled"]($app);
+
 
 $app->get('/isAuth', function() use($sessions){
-  return json_encode($sessions->getUserConnectedByCookies()['login']);
+  return json_encode($sessions->getUserConnectedByCookies());
 });
 
+
+//$app["cors-enabled"]($app);
 $app->run();
 
 

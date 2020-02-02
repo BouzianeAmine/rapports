@@ -16,10 +16,10 @@ export class SigninComponent implements OnInit {
 
   connect() {
     const user = {
-      username: this.email,
+      email: this.email,
       password: this.password
     }
-    fetch("http://localhost:8000/connect", { method: 'POST', mode: 'cors' ,body: JSON.parse(JSON.stringify(user))})
+    fetch("http://localhost:8000/connect", { method: 'POST', mode: 'no-cors' ,body:JSON.parse(JSON.stringify(user))})
       .then(res => res.json()).then(value=>console.log(value));
   }
 

@@ -6,6 +6,7 @@ include('../models/User.php');
 
 use src\Models\User;
 
+
 interface iSessionBehavior {
     public function startSession(); //set the membre to true
     public function testCookies(); // test if the cookie is set des isset sur les cookies
@@ -16,27 +17,27 @@ interface iSessionBehavior {
 
 class SessionFactory implements iSessionBehavior
 {
-
-    public function __construct(){}
+    public $app;
+    public function __construct($app){$this->app=$app;}
 
     public function startSession(){
         if($this->testSession()){return true;}
         session_start();
-        $_SESSION['auth'] = true;
-        return $_SESSION['auth'];
+        $this->app['session']->set('auth',true);
+        return $this->app['session']->get('auth');
     }
     public function testCookies(){
-        if(isset($_COOKIE['membre']['login']) && isset($_COOKIE['membre']['mdp'])){
+        if($this->app['session']->get('auth') && isset($_COOKIE['membre']['mdp'])){
             return true;
         }else return false;
     } // test if the cookie is set des isset sur les cookies, leave it for the checking factory
     public function testSession(){
-        if(isset($_SESSION['auth']) && $_SESSION['auth']==true){
+        if($this->app['session']->get('auth') && $this->app['session']->get('auth') == true){
             return true;
         }else return false;
     } // si la variable $_SESSION is set and equals to true leave it for the sessioncheking factory
     public function unsetSession(){
-        unset($_SESSION['auth']);
+      $this->app['session']->set('auth',null);
         session_destroy();
     } // pour se deconecter (singout) unset le session variable
     public function setCookie(User $membre){
@@ -47,7 +48,7 @@ class SessionFactory implements iSessionBehavior
 
     public function getUserConnectedByCookies(){
       if($this->testSession() && $this->testCookies()){
-        return $_COOKIE['membre'];
+        return $_COOKIE['membre']['login'];
       }
     }
 }

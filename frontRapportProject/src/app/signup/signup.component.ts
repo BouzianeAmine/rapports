@@ -16,7 +16,12 @@ export class SignupComponent implements OnInit {
   lastname:string;
   @Input()
   promotion:string;
-
+  @Input()
+  telephone:number;
+  @Input()
+  linkedin:string;
+  @Input()
+  naissance:Date;
   constructor() { }
 
   ngOnInit() {

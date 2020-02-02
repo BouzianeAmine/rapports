@@ -5,6 +5,7 @@ namespace src\Repositories;
 include('../models/User.php');
 include('../system/Connector.php');
 
+use PDO;
 use src\Models\User;
 use src\System\Connector;
 
@@ -49,11 +50,11 @@ class UserRepository {
         }else return false;
     }
 
-    public function getUserByemail($email){
+    public function getUserByemail(string $email){
         $stat='select * from user where email=:email';
         $prep=$this->connector->prepare($stat);
         $prep->execute(array(':email'=>$email));
-        return $prep->fetchAll(PDO::FETCH_ASSOC);
+        return User::userFromArray($prep->fetchAll(PDO::FETCH_ASSOC)[0]);
     }
 
 }
