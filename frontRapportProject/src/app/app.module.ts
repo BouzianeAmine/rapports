@@ -35,6 +35,10 @@ const routes: Routes = [
   {
     path:'rapports',
     component:RapportsComponent
+  },
+  {
+    path:'logout',
+    redirectTo:'/signin'
   }
 ];
 

@@ -62,7 +62,8 @@ class Membre implements iUserBehavior
 
   public function signOut(User $user)
   {
-    $this->session->unsetSession($user);
+    $this->session->unsetSession();
+    return true;
   }
 
   public function addRapport(Rapport $rap)

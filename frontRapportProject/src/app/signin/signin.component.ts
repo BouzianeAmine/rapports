@@ -1,5 +1,4 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'app-signin',
@@ -9,7 +8,7 @@ import { HttpClient } from '@angular/common/http';
 export class SigninComponent implements OnInit {
   @Input() email: string;
   @Input() password: string;
-  constructor(private httpCall:HttpClient) { }
+  constructor() { }
 
   ngOnInit() {
   }
@@ -19,8 +18,8 @@ export class SigninComponent implements OnInit {
       email: this.email,
       password: this.password
     };
-    fetch("http://localhost:8000/connect", { method: 'POST',mode:'cors',body:JSON.parse(JSON.stringify(user))})
-      .then(value=>value.json()).then(user=>console.log(user));
+    fetch("http://localhost:8000/connect", { method: 'POST',mode:'cors',body:JSON.stringify(user)})
+      .then(value=>value.json()).then(val=>console.log(val));
   }
 
 }

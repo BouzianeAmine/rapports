@@ -40,28 +40,29 @@ $dotenv->load();
 $con=new Connector();
 $repo=new UserRepository($con);
 $raprepo=new RapportRepository($con);
-$user=new User("amine","bouziane","12345678","aminebouz84@gmail.com","1","0769205922","08/09/1995","http://kfhkksssf.com");
+//$user=new User("amine","bouziane","12345678","aminebouz84@gmail.com","1","0769205922","08/09/1995","http://kfhkksssf.com");
 $sessions=new SessionFactory($app);
 $membre=new Membre($repo,$sessions,$raprepo);
 $rapport=new Rapport("rapport","pdf","zfjkzkefkzegfkzhegfe");
 
 $app->post('/connect', function(Request $req) use($membre,$repo){
+  //var_dump(json_decode($req->getContent(),true));
   $current_user=$repo->getUserByemail(json_decode($req->getContent(),true)['email']);
-  if($membre->signIn($current_user)){
-    return $current_user;
-  }else
-    return json_encode(false);
+  if($membre->signIn($current_user)) { return json_encode($current_user);}
+  else return json_encode(false);
 });
 
-$app->get('/rapport', function () use($raprepo,$user,$sessions,$repo) {
+$app->get('/rapport', function () use($raprepo,$sessions,$repo) {
   if($sessions->testSession()) {
-    return json_encode(array("rapports"=>$raprepo->getRapportsbyUser($repo->getUserByemail($sessions->getUserConnectedByCookies())),"user"=>$user));
+    return json_encode($raprepo->getRapportsbyUser($repo->getUserByemail($sessions->getUserConnectedByCookies())));
   }else return json_encode($sessions->app['session']->get('auth'));
 });
 
-$app->get('/deconnect',function() use($membre,$user,$app){
-    $membre->signOut($user);
-    return json_encode($app['session']->get('auth'));
+$app->get('/deconnect',function() use($membre,$repo,$sessions){
+    //var_dump($repo->getUserByemail($sessions->getUserConnectedByCookies()));
+    if($membre->signOut($repo->getUserByemail($sessions->getUserConnectedByCookies())))
+      return json_encode(true);
+    else return json_encode(false);
 });
 
 $app->get('/rapports',function() use($raprepo){
@@ -69,8 +70,8 @@ $app->get('/rapports',function() use($raprepo){
 });
 
 
-$app->get('/isAuth', function() use($sessions){
-  return json_encode($sessions->getUserConnectedByCookies());
+$app->get('/isAuth', function() use($app){
+  return  json_encode($app['session']->get('auth'));
 });
 
 

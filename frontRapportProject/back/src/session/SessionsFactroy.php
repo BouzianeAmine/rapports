@@ -38,7 +38,7 @@ class SessionFactory implements iSessionBehavior
     } // si la variable $_SESSION is set and equals to true leave it for the sessioncheking factory
     public function unsetSession(){
       $this->app['session']->set('auth',null);
-        session_destroy();
+      session_destroy();
     } // pour se deconecter (singout) unset le session variable
     public function setCookie(User $membre){
         if($this->testCookies()){return true;}

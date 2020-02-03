@@ -11,6 +11,7 @@
             <a class="nav-item nav-link" href="#" id='logout'>Logout</a>
             <a class="nav-item nav-link" routerLink="signin" id='login'>Login</a>
             <a class="nav-item nav-link" routerLink="signup" id='sign_up'>Sign Up</a>
+            <a class="nav-item nav-link" routerLink="logout" *ngIf="isauth" (click)='logout()'>Logout</a>
         </div>
     </div>
 </nav>
