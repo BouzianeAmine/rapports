@@ -14,6 +14,7 @@ import { RapportsComponent } from './rapports/rapports.component';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatTableModule, MatInputModule } from '@angular/material'
 import { MatCardModule } from '@angular/material/card';
+import {MatButtonModule} from '@angular/material/button';
 
 const routes: Routes = [
   {
@@ -67,7 +68,8 @@ const routes: Routes = [
     MatFormFieldModule,
     MatTableModule,
     MatInputModule,
-    MatCardModule
+    MatCardModule,
+    MatButtonModule
   ],
   providers: [],
   bootstrap: [AppComponent]
