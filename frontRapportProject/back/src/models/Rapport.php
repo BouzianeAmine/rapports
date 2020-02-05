@@ -16,7 +16,7 @@ class Rapport{
         $this->name=$name;
         $this->data=$data;
         $this->type=$type;
-        $this->$email=$email;
+        $this->email=$email;
     }
 
     public static function rapportFromArray($rapport){

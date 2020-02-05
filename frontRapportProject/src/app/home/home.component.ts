@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { Rapport } from '../models/rapport';
-import { FormGroup, FormBuilder } from '@angular/forms';
 
 @Component({
   selector: 'app-home',
@@ -8,12 +7,9 @@ import { FormGroup, FormBuilder } from '@angular/forms';
   styleUrls: ['./home.component.css']
 })
 export class HomeComponent implements OnInit {
-  form: FormGroup;
   rapports: Array<Rapport>;
-  fileBlob: Blob;
-  fileToUpload: any = null;
   currentUser: User;
-  constructor(private formBuilder: FormBuilder) {
+  constructor() {
     this.currentUser = JSON.parse(localStorage.getItem('user'));
   }
 
@@ -21,23 +17,18 @@ export class HomeComponent implements OnInit {
     fetch('http://localhost:8000/bootstrap.php/rapport', { method: 'POST', mode: 'cors', body: localStorage.getItem('user') })
       .then(res => res.json())
       .then((value: Array<Rapport>) => { this.rapports = value; console.log(this.rapports); });
-    this.form = this.formBuilder.group({
-      file: ['']
-    });
   }
 
   handleFileInput(event) {
-    console.log(event.target.files[0]);
     const formData = new FormData();
     formData.append('file', event.target.files[0]);
-    /*const rapp=Rapport.makeRapportFromFile(files.item(0));
-    rapp.email=this.currentUser.email;*/
+    formData.append('user',JSON.stringify(this.currentUser));
     fetch("http://localhost:8000/uploader.php", { method: 'POST', mode: 'cors', body: formData })
       .then(res => {
         if (res.ok) {
           console.log('the file is uploaded')
         }
-      });
+      })
   }
   /*changeFile(file) {
     return new Promise((resolve, reject) => {

@@ -12,7 +12,6 @@ include('./src/repos/rapportRepo.php');
 include('./src/models/Rapport.php');
 
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Response;
 use Dotenv\Dotenv;
 use src\factory\SessionFactory;
 use src\Models\Rapport;
@@ -37,6 +36,7 @@ $app->register(new Silex\Provider\SessionServiceProvider());
 
 $dotenv = Dotenv::createImmutable(__DIR__);
 $dotenv->load();
+
 $con=new Connector();
 $repo=new UserRepository($con);
 $raprepo=new RapportRepository($con);
@@ -68,18 +68,10 @@ $app->get('/rapports',function() use($raprepo){
   return json_encode($raprepo->getRapports());
 });
 
-$app->post('/addRapport',function(Request $req) use($membre){
-  $upload_dir = 'uploads/';
-  $server_url = 'http://127.0.0.1:8000';
-  $rapport=Rapport::rapportFromArray(json_decode($req->getContent(),true));
-  if($rapport){
-    $random_name = rand(1000,1000000)."-".$rapport->name;
-    $upload_name = $upload_dir.strtolower($random_name);
-    $upload_name = preg_replace('/\s+/', '-', $upload_name);
-    if(move_uploaded_file($rapport->name , $upload_name)) return json_encode(true);
-  }
+$app->post('/addRapport', function(Request $req) use($raprepo){
+  $rapport=json_decode($req->getContent(),true);
+  return json_encode($raprepo->addRapport($rapport));
 });
-
 //$app["cors-enabled"]($app);
 $app->run();
 
