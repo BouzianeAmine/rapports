@@ -2,24 +2,22 @@
 <form id='update_account_form'>
     <div class="form-group">
         <label for="firstname">Firstname</label>
-        <input type="text" class="form-control" [(ngModel)]="firstname" id="firstname" required
-            value="` + result.data.firstname + `" />
+        <input type="text" class="form-control" [(ngModel)]="currentUser.firstname" name="firstname" required />
     </div>
 
     <div class="form-group">
         <label for="lastname">Lastname</label>
-        <input type="text" class="form-control" [(ngModel)]="lastname" id="lastname" required
-            value="` + result.data.lastname + `" />
+        <input type="text" class="form-control" [(ngModel)]="currentUser.lastname" name="lastname" required />
     </div>
 
     <div class="form-group">
         <label for="email">Email</label>
-        <input type="email" class="form-control" [(ngModel)]="email" id="email" required value="` + result.data.email + `" />
+        <input type="email" class="form-control" [(ngModel)]="currentUser.email" name="email" required />
     </div>
 
     <div class="form-group">
         <label for="password">Password</label>
-        <input type="password" class="form-control" [(ngModel)]="password" id="password" />
+        <input type="password" class="form-control" [(ngModel)]="currentUser.password" name="password" />
     </div>
 
     <button type='submit' class='btn btn-primary'>

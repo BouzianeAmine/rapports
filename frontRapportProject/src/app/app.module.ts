@@ -9,11 +9,11 @@ import { SignupComponent } from './signup/signup.component';
 import { SigninComponent } from './signin/signin.component';
 import { UpdateUserComponent } from './update-user/update-user.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { FormsModule } from '@angular/forms';
+import { FormsModule,ReactiveFormsModule  } from '@angular/forms';
 import { RapportsComponent } from './rapports/rapports.component';
-import {MatFormFieldModule} from '@angular/material/form-field';
-import { MatTableModule } from '@angular/material'  
-import {MatInputModule} from '@angular/material';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatTableModule, MatInputModule } from '@angular/material'
+import { MatCardModule } from '@angular/material/card';
 
 const routes: Routes = [
   {
@@ -29,16 +29,20 @@ const routes: Routes = [
     component: SigninComponent
   },
   {
-    path:'updateUser',
+    path: 'updateUser',
     component: UpdateUserComponent
   },
   {
-    path:'rapports',
-    component:RapportsComponent
+    path: 'rapports',
+    component: RapportsComponent
   },
   {
-    path:'logout',
-    redirectTo:'/signin'
+    path: 'logout',
+    redirectTo: '/signin'
+  },
+  {
+    path: '',
+    component: AppComponent
   }
 ];
 
@@ -59,9 +63,11 @@ const routes: Routes = [
     RouterModule.forRoot(routes),
     BrowserAnimationsModule,
     FormsModule,
+    ReactiveFormsModule ,
     MatFormFieldModule,
     MatTableModule,
-    MatInputModule
+    MatInputModule,
+    MatCardModule
   ],
   providers: [],
   bootstrap: [AppComponent]

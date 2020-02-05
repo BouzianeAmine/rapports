@@ -40,10 +40,9 @@ $dotenv->load();
 $con=new Connector();
 $repo=new UserRepository($con);
 $raprepo=new RapportRepository($con);
-//$user=new User("amine","bouziane","12345678","aminebouz84@gmail.com","1","0769205922","08/09/1995","http://kfhkksssf.com");
 $sessions=new SessionFactory($app);
 $membre=new Membre($repo,$sessions,$raprepo);
-$rapport=new Rapport("rapport","pdf","zfjkzkefkzegfkzhegfe");
+//$rapport=new Rapport("rapport","pdf","zfjkzkefkzegfkzhegfe");
 
 $app->post('/connect', function(Request $req) use($membre,$repo){
   //var_dump(json_decode($req->getContent(),true));
@@ -52,15 +51,15 @@ $app->post('/connect', function(Request $req) use($membre,$repo){
   else return json_encode(false);
 });
 
-$app->get('/rapport', function () use($raprepo,$sessions,$repo) {
-  if($sessions->testSession()) {
-    return json_encode($raprepo->getRapportsbyUser($repo->getUserByemail($sessions->getUserConnectedByCookies())));
-  }else return json_encode($sessions->app['session']->get('auth'));
+$app->post('/rapport', function (Request $req) use($raprepo,$repo) {
+  $currentUser=User::userFromArray(json_decode($req->getContent(),true));
+  if($currentUser) {
+    return json_encode($raprepo->getRapportsbyUser($currentUser));
+  }else return json_encode(array("error"=>"No user is auth"));
 });
 
-$app->get('/deconnect',function() use($membre,$repo,$sessions){
-    //var_dump($repo->getUserByemail($sessions->getUserConnectedByCookies()));
-    if($membre->signOut($repo->getUserByemail($sessions->getUserConnectedByCookies())))
+$app->post('/deconnect',function(Request $req) use($membre,$repo,$sessions){
+    if($membre->signOut(User::userFromArray(json_decode($req->getContent(),true))))
       return json_encode(true);
     else return json_encode(false);
 });
@@ -69,11 +68,17 @@ $app->get('/rapports',function() use($raprepo){
   return json_encode($raprepo->getRapports());
 });
 
-
-$app->get('/isAuth', function() use($app){
-  return  json_encode($app['session']->get('auth'));
+$app->post('/addRapport',function(Request $req) use($membre){
+  $upload_dir = 'uploads/';
+  $server_url = 'http://127.0.0.1:8000';
+  $rapport=Rapport::rapportFromArray(json_decode($req->getContent(),true));
+  if($rapport){
+    $random_name = rand(1000,1000000)."-".$rapport->name;
+    $upload_name = $upload_dir.strtolower($random_name);
+    $upload_name = preg_replace('/\s+/', '-', $upload_name);
+    if(move_uploaded_file($rapport->name , $upload_name)) return json_encode(true);
+  }
 });
-
 
 //$app["cors-enabled"]($app);
 $app->run();

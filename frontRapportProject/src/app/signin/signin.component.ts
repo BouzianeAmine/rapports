@@ -1,4 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-signin',
@@ -8,7 +9,7 @@ import { Component, OnInit, Input } from '@angular/core';
 export class SigninComponent implements OnInit {
   @Input() email: string;
   @Input() password: string;
-  constructor() { }
+  constructor(private router:Router) { }
 
   ngOnInit() {
   }
@@ -18,8 +19,13 @@ export class SigninComponent implements OnInit {
       email: this.email,
       password: this.password
     };
-    fetch("http://localhost:8000/connect", { method: 'POST',mode:'cors',body:JSON.stringify(user)})
-      .then(value=>value.json()).then(val=>console.log(val));
+    fetch("http://localhost:8000/bootstrap.php/connect", { method: 'POST', mode: 'cors', body: JSON.stringify(user) })
+      .then(value => value.json())
+      .then(user => {
+        localStorage.setItem('auth','true');
+        localStorage.setItem("user", JSON.stringify(user));
+        this.router.navigate(['']);
+      });
   }
 
 }

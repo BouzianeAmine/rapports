@@ -20,7 +20,6 @@ class RapportRepository{
 
     public function addRapport(Rapport $rap)
     {
-        $rap->email=$_COOKIE['membre']['login'];
         $stat='Insert Into rapport (name,type,data,email) values (:name,:type,:data,:email)';
         $prep=$this->connector->prepare($stat);
         return $prep->execute(array(':name'=>$rap->name,':type'=>$rap->type,':data'=>$rap->data,':email'=>$rap->email));

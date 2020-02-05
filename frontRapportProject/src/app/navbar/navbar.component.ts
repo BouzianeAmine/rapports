@@ -7,17 +7,22 @@ import { Component, OnInit } from '@angular/core';
 })
 export class NavbarComponent implements OnInit {
   isauth: Boolean;
-  constructor() {this.isAuth()}
+  constructor() { this.isauth = this.isAuth() }
 
   ngOnInit() {
   }
 
-  isAuth() {
-    fetch('http://localhost:8000/isAuth', { method: 'GET', mode: 'cors' })
-      .then(res => res.json())
-      .then(value => {this.isauth = value; console.log(this.isauth)});
+  public isAuth() {
+    return JSON.parse(localStorage.getItem('auth'));
   }
-  logout(){
-    fetch('http://localhost:8000/deconnect',{ method: 'GET', mode: 'cors' }).then(res=>this.isauth=null);
+  logout() {
+    fetch('http://localhost:8000/bootstrap.php/deconnect', { method: 'POST', mode: 'cors', body: localStorage.getItem('user') })
+      .then(res => {
+        if (res.ok) {
+          localStorage.removeItem('user');
+          localStorage.setItem('auth', 'false');
+          this.isauth = JSON.parse(localStorage.getItem('auth'))
+        }
+      });
   }
 }
