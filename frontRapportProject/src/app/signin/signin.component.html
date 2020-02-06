@@ -11,3 +11,7 @@
 </div>
 
 <button (click)="connect()" class='btn btn-primary'>Login</button>
+<div class="example-element-description" *ngIf="errorcheck">
+    
+    <span class="example-element-description-attribution"> {{error}} </span>
+</div>

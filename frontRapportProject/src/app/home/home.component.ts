@@ -1,6 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { Rapport } from '../models/rapport';
 
+export interface rapportDetails {
+  filiere: string,
+  annee: string,
+  encadrant: string,
+  sujet: string,
+  societe: string
+}
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
@@ -10,8 +17,11 @@ export class HomeComponent implements OnInit {
   rapports: Array<Rapport>;
   currentUser: User;
   filiere:string;
+  rapport:rapportDetails;
+  formData:FormData;
   constructor() {
     this.currentUser = JSON.parse(localStorage.getItem('user'));
+    this.rapport={"filiere":"","annee":"","encadrant":"","sujet":"","societe":""}
   }
 
   ngOnInit() {
@@ -21,15 +31,19 @@ export class HomeComponent implements OnInit {
   }
 
   handleFileInput(event) {
-    const formData = new FormData();
-    formData.append('file', event.target.files[0]);
-    formData.append('user',JSON.stringify(this.currentUser));
-    fetch("http://localhost:8000/uploader.php", { method: 'POST', mode: 'cors', body: formData })
-      .then(res => {
-        if (res.ok) {
-          console.log('the file is uploaded')
-        }
-      })
+    this.formData = new FormData();
+    this.formData.append('file', event.target.files[0]);
+    this.formData.append('user',JSON.stringify(this.currentUser));
+  }
+
+  ajouter(){
+    this.formData.append('rapportDetails',JSON.stringify(this.rapport));
+    fetch("http://localhost:8000/uploader.php", { method: 'POST', mode: 'cors', body: this.formData })
+    .then(res => {
+      if (res.ok) {
+        console.log('the file is uploaded')
+      }
+    })
   }
   /*changeFile(file) {
     return new Promise((resolve, reject) => {

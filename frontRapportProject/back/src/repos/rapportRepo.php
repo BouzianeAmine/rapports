@@ -20,9 +20,9 @@ class RapportRepository{
 
     public function addRapport(Rapport $rap)
     {
-        $stat='Insert Into rapport (name,type,data,email) values (:name,:type,:data,:email)';
+        $stat='INSERT INTO rapport(name,type, data,email ,filiere,annee, sujet,encadrant,societe) VALUES (:name,:type, :data,:email ,:filiere,:annee, :sujet,:encadrant,:societe)';
         $prep=$this->connector->prepare($stat);
-        return $prep->execute(array(':name'=>$rap->name,':type'=>$rap->type,':data'=>$rap->data,':email'=>$rap->email));
+        return $prep->execute(array(':name'=>$rap->name,':type'=>$rap->type,':data'=>$rap->data,':email'=>$rap->email,':filiere'=>$rap->filiere,':annee'=>$rap->annee,':sujet'=>$rap->sujet,':encadrant'=>$rap->encadrant,':societe'=>$rap->societe));
     }
 
     public function getRapportsbyUser(User $user){

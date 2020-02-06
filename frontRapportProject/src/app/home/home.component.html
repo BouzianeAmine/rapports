@@ -5,26 +5,26 @@
 
 <form class="example-form">
   <mat-form-field class="example-full-width">
-    <input matInput placeholder="Filiere" name="filiere" [(ngModel)]="filiere">
+    <input matInput placeholder="Filiere" name="filiere" [(ngModel)]="rapport.filiere">
   </mat-form-field>
 
   <mat-form-field class="example-full-width">
-    <input matInput placeholder="Annee">
+    <input matInput [(ngModel)]="rapport.annee" name="annee" placeholder="Annee">
   </mat-form-field>
 
   <mat-form-field class="example-full-width">
-    <input matInput placeholder="Sujet">
+    <input matInput [(ngModel)]="rapport.sujet" name="sujet" placeholder="Sujet">
   </mat-form-field>
 
   <mat-form-field class="example-full-width">
-    <input matInput placeholder="Encadrant">
+    <input matInput [(ngModel)]="rapport.encadrant" name="encadrant" placeholder="Encadrant">
   </mat-form-field>
 
   <mat-form-field class="example-full-width">
-    <input matInput placeholder="Societe">
+    <input matInput [(ngModel)]="rapport.societe" name="societe" placeholder="Societe">
   </mat-form-field>
 
-  <button mat-raised-button (click)="true">Ajouter</button>
+  <button mat-raised-button (click)="ajouter()">Ajouter</button>
 
 </form>
 
@@ -32,7 +32,7 @@
   <mat-card-header>
     <div mat-card-avatar class="example-header-image"></div>
     <mat-card-title>{{rapport.name}}</mat-card-title>
-    <mat-card-subtitle>{{rapport.type}}</mat-card-subtitle>
+    <mat-card-subtitle>{{rapport.filiere}}</mat-card-subtitle>
   </mat-card-header>
   <mat-card-content>
     <a [href]='rapport.data'> Link to the visuliase</a>

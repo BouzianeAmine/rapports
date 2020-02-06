@@ -3,13 +3,26 @@ export class Rapport {
   name: string;
   type: string;
   data: string;
-  public email: string;
-  constructor(name,type){
-    this.name=name;
-    this.type=type;
-    this.data=null;
+  email: string;
+  filiere: string;
+  annee: string;
+  encadrant: string;
+  sujet: string;
+  societe: string;
+  constructor(name, type, filiere: string,
+    annee: string,
+    encadrant: string,
+    sujet: string,
+    societe: string) {
+    this.name = name;
+    this.type = type;
+    this.data = null;
+    this.filiere=filiere;
+    this.annee=annee;
+    this.encadrant=encadrant;
+    this.sujet=sujet;
+    this.societe=societe;
   }
-  static makeRapportFromFile(file:File){
-    return new Rapport(file.name,file.type);
-  }
+
+
 }

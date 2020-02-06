@@ -18,6 +18,10 @@ import {MatButtonModule} from '@angular/material/button';
 
 const routes: Routes = [
   {
+    path: '',
+    component:AppComponent
+  },
+  {
     path: 'home',
     component: HomeComponent
   },
@@ -40,11 +44,8 @@ const routes: Routes = [
   {
     path: 'logout',
     redirectTo: '/signin'
-  },
-  {
-    path: '',
-    component: AppComponent
   }
+ 
 ];
 
 @NgModule({

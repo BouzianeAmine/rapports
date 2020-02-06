@@ -30,7 +30,7 @@ class UserRepository {
     }
 
     public function updateUser(User $user){
-        $stat='update table user set firstname=:firstname,lastname=:lastname,password=:password,email=:email,promotion=:promotion,telephone=:telephone,naissance=:naissance,linkedin=:linkedin,solde=:solde';
+        $stat='update user set firstname=:firstname,lastname=:lastname,password=:password,email=:email,promotion=:promotion,telephone=:telephone,naissance=:naissance,linkedin=:linkedin,solde=:solde';
         $prep=$this->connector->prepare($stat);
         return $prep->execute(array(':firstname'=>$user->firstname,':lastname'=>$user->lastname,':password'=>$user->password,'email'=>$user->email,'promotion'=>$user->promotion,':telephone'=>$user->telephone,'naissance'=>$user->naissance,'linkedin'=>$user->linkedin,'solde'=>$user->solde));
     }

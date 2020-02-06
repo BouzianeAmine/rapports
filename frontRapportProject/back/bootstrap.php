@@ -78,6 +78,13 @@ $app->post('signup', function(Request $req) use($repo){
   return json_encode($user);
 });
 
+$app->post('updateUser',function(Request $req) use($repo){
+  $user=User::userFromArray(json_decode($req->getContent(),true));
+  if($repo->updateUser($user)){
+    return json_encode(true);
+  }
+  return json_encode(false);
+});
 //$app["cors-enabled"]($app);
 $app->run();
 

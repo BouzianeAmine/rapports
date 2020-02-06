@@ -37,6 +37,7 @@ if($_FILES['file'])
   $error = $_FILES["file"]["error"];
   $type = $_FILES["file"]["type"];
   $email = json_decode($_POST["user"])->email;
+  $rapport = json_decode($_POST["rapportDetails"]);
   if($error > 0){
     $response = array(
       "status" => "error",
@@ -57,7 +58,7 @@ if($_FILES['file'])
         "message" => "File uploaded successfully",
         "url" => $server_url."/".$upload_name
       );
-      $rapport=new Rapport($file_name, $type, $response['url'], $email);
+      $rapport=new Rapport($file_name, $type, $response['url'], $email,$rapport->filiere,$rapport->annee,$rapport->sujet,$rapport->encadrant,$rapport->societe);
       $raprep->addRapport($rapport);
     }else
     {

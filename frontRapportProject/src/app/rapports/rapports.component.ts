@@ -10,7 +10,7 @@ import { Rapport } from '../models/rapport';
   styleUrls: ['./rapports.component.css']
 })
 export class RapportsComponent implements OnInit {
-  displayedColumns: string[] = ['name', 'type', 'data'];
+  displayedColumns: string[] = ['name', 'filiere', 'sujet','data'];
   dataSource: MatTableDataSource<Rapport>;
   fileBlob: Blob;
   rapports: Array<Rapport>;

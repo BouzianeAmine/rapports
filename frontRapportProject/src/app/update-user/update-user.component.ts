@@ -6,7 +6,7 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./update-user.component.css']
 })
 export class UpdateUserComponent implements OnInit {
-  currentUser:User;
+  currentUser: User;
   constructor() {
     this.currentUser = JSON.parse(localStorage.getItem('user'));
     console.log(this.currentUser)
@@ -14,6 +14,10 @@ export class UpdateUserComponent implements OnInit {
 
   ngOnInit() {
 
+  }
+  save() {
+    fetch("http://localhost:8000/bootstrap.php/updateUser", { method: 'POST', mode: 'cors', body: JSON.stringify(this.currentUser) })
+      .then(()=> localStorage.setItem('user', JSON.stringify(this.currentUser)));
   }
 
 }
