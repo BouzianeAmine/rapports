@@ -41,10 +41,10 @@ class UserRepository {
         return $prep->execute(array(':email'=>$user->email));
     }
 
-    public function checkUser(User $user){
+    public function checkUser($email){
         $stat='select * from user where email=:email';
         $prep=$this->connector->prepare($stat);
-        $prep->execute(array(':email'=>$user->email));
+        $prep->execute(array(':email'=>$email));
         if($prep->rowCount()>0){
             return true;
         }else return false;
@@ -57,5 +57,15 @@ class UserRepository {
         return User::userFromArray($prep->fetchAll(PDO::FETCH_ASSOC)[0]);
     }
 
+    public function checkAuthUser($email,$password){
+        if($this->checkUser($email)){
+          $stat='select * from user where email=:email and password=:password';
+          $prep=$this->connector->prepare($stat);
+          $prep->execute(array(':email'=>$email,':password'=>$password));
+          if($prep->rowCount()>0){
+            return User::userFromArray($prep->fetchAll(PDO::FETCH_ASSOC)[0]);
+          }else return false;
+        }else return false;
+    }
 }
 ?>

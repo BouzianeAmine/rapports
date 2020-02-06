@@ -1,10 +1,32 @@
 <div class="form-group">
-    <label for="file">Choose File</label>
-    <input type="file"
-           id="file"
-           (change)="handleFileInput($event)">
+  <label for="file">Choose File</label>
+  <input type="file" id="file" (change)="handleFileInput($event)">
 </div>
 
+<form class="example-form">
+  <mat-form-field class="example-full-width">
+    <input matInput placeholder="Filiere" name="filiere" [(ngModel)]="filiere">
+  </mat-form-field>
+
+  <mat-form-field class="example-full-width">
+    <input matInput placeholder="Annee">
+  </mat-form-field>
+
+  <mat-form-field class="example-full-width">
+    <input matInput placeholder="Sujet">
+  </mat-form-field>
+
+  <mat-form-field class="example-full-width">
+    <input matInput placeholder="Encadrant">
+  </mat-form-field>
+
+  <mat-form-field class="example-full-width">
+    <input matInput placeholder="Societe">
+  </mat-form-field>
+
+  <button mat-raised-button (click)="true">Ajouter</button>
+
+</form>
 
 <mat-card class="example-card" *ngFor='let rapport of rapports'>
   <mat-card-header>

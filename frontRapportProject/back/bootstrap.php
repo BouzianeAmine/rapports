@@ -45,10 +45,9 @@ $membre=new Membre($repo,$sessions,$raprepo);
 //$rapport=new Rapport("rapport","pdf","zfjkzkefkzegfkzhegfe");
 
 $app->post('/connect', function(Request $req) use($membre,$repo){
-  //var_dump(json_decode($req->getContent(),true));
-  $current_user=$repo->getUserByemail(json_decode($req->getContent(),true)['email']);
-  if($membre->signIn($current_user)) { return json_encode($current_user);}
-  else return json_encode(false);
+  $email=json_decode($req->getContent(),true)['email'];
+  $password=json_decode($req->getContent(),true)['password'];
+  return json_encode($membre->signIn($email,$password));
 });
 
 $app->post('/rapport', function (Request $req) use($raprepo,$repo) {
@@ -72,6 +71,13 @@ $app->post('/addRapport', function(Request $req) use($raprepo){
   $rapport=json_decode($req->getContent(),true);
   return json_encode($raprepo->addRapport($rapport));
 });
+
+$app->post('signup', function(Request $req) use($repo){
+  $user=new User(json_decode($req->getContent(),true));
+  $repo->addUser($user);
+  return json_encode($user);
+});
+
 //$app["cors-enabled"]($app);
 $app->run();
 

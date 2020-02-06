@@ -17,7 +17,7 @@ use src\Repositories\RapportRepository;
 interface iUserBehavior
 {
   public function signUp(User $user);
-  public function signIn(User $user);
+  public function signIn($email,$password);
   public function signOut(User $user);
 }
 
@@ -46,17 +46,18 @@ class Membre implements iUserBehavior
     return true;
   }
 
-  public function signIn(User $user)
+  public function signIn($email,$password)
   {
-    if (!$this->rep->checkUser($user)) {
+    $res=$this->rep->checkAuthUser($email,$password);
+    if ($res==false) {
       return false;
     }
     if ($this->session->testSession() && $this->session->testCookies()) {
-      return true;
+      return $res;
     }
     $this->session->startSession();
-    $this->session->setCookie($user);
-    return true;
+    $this->session->setCookie($res);
+    return $res;
     // i need a checking factory example FactoryUserChecking or FactorySessionChecking
   }
 

@@ -22,6 +22,9 @@ export class SigninComponent implements OnInit {
     fetch("http://localhost:8000/bootstrap.php/connect", { method: 'POST', mode: 'cors', body: JSON.stringify(user) })
       .then(value => value.json())
       .then(user => {
+        if(user==false){
+          throw new Error("Not the good cridentials");
+        }
         localStorage.setItem('auth','true');
         localStorage.setItem("user", JSON.stringify(user));
         this.router.navigate(['']);

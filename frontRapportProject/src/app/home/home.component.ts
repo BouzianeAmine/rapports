@@ -9,6 +9,7 @@ import { Rapport } from '../models/rapport';
 export class HomeComponent implements OnInit {
   rapports: Array<Rapport>;
   currentUser: User;
+  filiere:string;
   constructor() {
     this.currentUser = JSON.parse(localStorage.getItem('user'));
   }
