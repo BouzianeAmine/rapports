@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { getCurrentUser } from '../handlers/userSession';
 
 @Component({
   selector: 'app-navbar',
@@ -7,7 +8,8 @@ import { Component, OnInit } from '@angular/core';
 })
 export class NavbarComponent implements OnInit {
   isauth: Boolean;
-  constructor() { this.isauth = this.isAuth() }
+  currentUser:User;
+  constructor() { this.isauth = this.isAuth(); this.currentUser=getCurrentUser();}
 
   ngOnInit() {
   }
@@ -19,7 +21,7 @@ export class NavbarComponent implements OnInit {
     fetch('http://localhost:8000/bootstrap.php/deconnect', { method: 'POST', mode: 'cors', body: localStorage.getItem('user') })
       .then(res => {
         if (res.ok) {
-          localStorage.removeItem('user');
+          localStorage.setItem('user',null);
           localStorage.setItem('auth', 'false');
           this.isauth = JSON.parse(localStorage.getItem('auth'))
         }

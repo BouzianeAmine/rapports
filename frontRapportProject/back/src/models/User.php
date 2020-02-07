@@ -180,7 +180,9 @@ class User{
   }
 
   public static function userFromArray($array){
-    return new User($array['firstname'],$array['lastname'],$array['password'],$array['email'],$array['promotion'],$array['telephone'],$array['naissance'],$array['linkedin']);
+    $user= new User($array['firstname'],$array['lastname'],$array['password'],$array['email'],$array['promotion'],$array['telephone'],$array['naissance'],$array['linkedin']);
+    $user->solde=$array['solde'];
+    return $user;
   }
 }
 
