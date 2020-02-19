@@ -50,7 +50,7 @@ class UserRepository {
         }else return false;
     }
 
-    public function getUserByemail(string $email){
+    public function getUserByemail(string $email):User{
         $stat='select * from user where email=:email';
         $prep=$this->connector->prepare($stat);
         $prep->execute(array(':email'=>$email));

@@ -1,8 +1,13 @@
 .cards {
-  width: 20%;
-  padding: 10px;
-  display: flex;
-  justify-content: space-between;  
+  /* padding: 10px; */
+  /* display: -webkit-box; */
+  display: grid;
+  /* left: 10PX; */
+  /* -webkit-box-pack: justify; */
+  /* justify-content: space-between; */
+  text-align: center;
+  /* margin-right: auto; */
+  grid-template-columns: repeat(3,1fr);
 }
 .example-card {
   max-width: 400px;
@@ -39,5 +44,3 @@ button {
 form {
   display: grid;
 }
-
-

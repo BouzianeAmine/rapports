@@ -1,4 +1,4 @@
-interface User {
+export interface User {
     firstname:string, 
     lastname:string,
     password:string,
@@ -7,5 +7,5 @@ interface User {
     telephone:string,
     naissance: string,
     linkedin: string,
-    solde: number
+    solde: number,
 }

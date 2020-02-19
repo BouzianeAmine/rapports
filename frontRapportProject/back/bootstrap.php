@@ -44,20 +44,20 @@ $sessions=new SessionFactory($app);
 $membre=new Membre($repo,$sessions,$raprepo);
 //$rapport=new Rapport("rapport","pdf","zfjkzkefkzegfkzhegfe");
 
-$app->post('/connect', function(Request $req) use($membre,$repo){
+$app->post('/connect', function(Request $req) use($membre){
   $email=json_decode($req->getContent(),true)['email'];
   $password=json_decode($req->getContent(),true)['password'];
   return json_encode($membre->signIn($email,$password));
 });
 
-$app->post('/rapport', function (Request $req) use($raprepo,$repo) {
+$app->post('/rapport', function (Request $req) use($raprepo) {
   $currentUser=User::userFromArray(json_decode($req->getContent(),true));
   if($currentUser) {
     return json_encode($raprepo->getRapportsbyUser($currentUser));
   }else return json_encode(array("error"=>"No user is auth"));
 });
 
-$app->post('/deconnect',function(Request $req) use($membre,$repo,$sessions){
+$app->post('/deconnect',function(Request $req) use($membre){
     if($membre->signOut(User::userFromArray(json_decode($req->getContent(),true))))
       return json_encode(true);
     else return json_encode(false);
@@ -73,7 +73,7 @@ $app->post('/addRapport', function(Request $req) use($raprepo){
 });
 
 $app->post('signup', function(Request $req) use($repo){
-  $user=new User(json_decode($req->getContent(),true));
+  $user=User::userFromArray(json_decode($req->getContent(),true));
   $repo->addUser($user);
   return json_encode($user);
 });
@@ -81,13 +81,13 @@ $app->post('signup', function(Request $req) use($repo){
 $app->post('updateUser',function(Request $req) use($repo){
   $user=User::userFromArray(json_decode($req->getContent(),true));
   if($repo->updateUser($user)){
-    return json_encode(true);
+    return json_encode($repo->getUserByemail($user->email));
   }
   return json_encode(false);
 });
+
+$app->get('getAuthUser',function() use($sessions){
+  return json_encode($sessions->getUserConnected());
+});
 //$app["cors-enabled"]($app);
 $app->run();
-
-
-
-?>

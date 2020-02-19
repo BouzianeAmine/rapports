@@ -1,7 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
 import { Rapport } from '../models/rapport';
-import { getCurrentUser } from '../handlers/userSession';
+import { getCurrentUser, updateSolde } from '../handlers/userSession';
+import { User } from '../models/user';
+import { UserService } from '../user.service';
 
 
 
@@ -15,8 +17,9 @@ export class RapportsComponent implements OnInit {
   dataSource: MatTableDataSource<Rapport>;
   fileBlob: Blob;
   rapports: Array<Rapport>;
-  currentUser: User = getCurrentUser();
-  constructor() {
+  currentUser: User;
+  constructor(private userService:UserService) {
+    getCurrentUser().subscribe(user=>{this.currentUser=user});
     this.getRapports();
   }
 
@@ -31,11 +34,13 @@ export class RapportsComponent implements OnInit {
   }
 
   download() {
-    console.log("a process")
-    /*
-    this.currentUser.solde--;
-    localStorage.setItem('user',JSON.stringify(this.currentUser))
-    fetch() or make a a service to update the solde user
-    */
+    updateSolde(-1).then(user=>this.userService.update(user));
+  }
+
+  soldeBehave():boolean{
+    if(this.currentUser==null || this.currentUser.solde == 0){
+       return  false;
+    }
+    return true;
   }
 }

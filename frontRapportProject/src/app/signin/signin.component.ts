@@ -1,6 +1,8 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { Router } from '@angular/router';
-import { handling } from '../handlers/error_handling';
+import { soldeBehavior, toString } from '../handlers/userSession';
+import { User } from '../models/user';
+import { UserService } from '../user.service';
 
 @Component({
   selector: 'app-signin',
@@ -10,9 +12,9 @@ import { handling } from '../handlers/error_handling';
 export class SigninComponent implements OnInit {
   @Input() email: string;
   @Input() password: string;
-  error:string;
-  errorcheck:boolean=false;
-  constructor(private router: Router) { }
+  error: string;
+  errorcheck: boolean = false;
+  constructor(private router: Router, private userService: UserService) { }
 
   ngOnInit() {
   }
@@ -22,18 +24,15 @@ export class SigninComponent implements OnInit {
       email: this.email,
       password: this.password
     };
-    fetch("http://localhost:8000/bootstrap.php/connect", { method: 'POST', mode: 'cors', body: JSON.stringify(user) })
-      .then(value => value.json())
-      .then(user => {
-        if (user == false) {
-          this.errorcheck=true;
-          this.error="Not the good cridentials";
-          throw new Error(this.error);
-        }
-        localStorage.setItem('auth', 'true');
-        localStorage.setItem("user", JSON.stringify(user));
-        this.router.navigate(['/home']).then(val=>window.location.reload());
-      });
+    this.userService.connect(user).subscribe((user:User) => {
+      if (user == undefined) {
+        this.errorcheck = true;
+        this.error = "Not the good cridentials";
+        throw new Error(this.error);
+      }
+      this.router.navigate(['/home']).then(() => window.location.reload());
+    });
   }
 
+  
 }

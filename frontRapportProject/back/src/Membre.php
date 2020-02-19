@@ -55,7 +55,7 @@ class Membre implements iUserBehavior
     if ($this->session->testSession() && $this->session->testCookies()) {
       return $res;
     }
-    $this->session->startSession();
+    $this->session->startSession($this->rep->getUserByemail($email));
     $this->session->setCookie($res);
     return $res;
     // i need a checking factory example FactoryUserChecking or FactorySessionChecking

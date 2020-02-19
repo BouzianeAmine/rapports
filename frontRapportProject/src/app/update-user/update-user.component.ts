@@ -1,4 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { User } from '../models/user';
+import { toString, toJSON, getCurrentUser } from '../handlers/userSession';
+import { UserService } from '../user.service';
 
 @Component({
   selector: 'app-update-user',
@@ -7,17 +10,15 @@ import { Component, OnInit } from '@angular/core';
 })
 export class UpdateUserComponent implements OnInit {
   currentUser: User;
-  constructor() {
-    this.currentUser = JSON.parse(localStorage.getItem('user'));
-    console.log(this.currentUser)
+  constructor(private userService:UserService) {
+    getCurrentUser().subscribe(user=>{this.currentUser=user});
   }
 
   ngOnInit() {
 
   }
   save() {
-    fetch("http://localhost:8000/bootstrap.php/updateUser", { method: 'POST', mode: 'cors', body: JSON.stringify(this.currentUser) })
-      .then(()=> localStorage.setItem('user', JSON.stringify(this.currentUser)));
+   this.userService.update(this.currentUser)
   }
 
 }
