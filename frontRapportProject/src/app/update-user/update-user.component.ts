@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { User } from '../models/user';
-import { toString, toJSON, getCurrentUser } from '../handlers/userSession';
+import { getCurrentUser } from '../handlers/userSession';
 import { UserService } from '../user.service';
 
 @Component({

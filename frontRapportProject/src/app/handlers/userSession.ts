@@ -15,11 +15,9 @@ export function stockSession(user: User) {
 export function soldeBehavior(user: User) {
 
     if (user != undefined) {
-        var date = toJSON(localStorage.getItem('hist'))[1];
-        //console.log(user);
         if (testSameConnectionDay()) {
-            user.solde++;
             console.log('im here where i shouldn"t be')
+            updateSolde(1).then(user => stockSession(user))
             return true;
         }
         console.log('here instead where it should be now')
@@ -37,16 +35,17 @@ export function toString(val) {
 }
 
 function dateDiff(d1, d2) {
-    d1 = new Date(d1);
-    d2 = new Date(d2);
-    return new Date((d1 - d2)).getSeconds();
+    d1 = new Date(d1).getTime() / 1000;
+    d2 = new Date(d2).getTime() / 1000;
+    return d1 - d2;
 }
 
 
 export function updateSolde(val: number): Promise<User> {
     return new Promise<User>((resolve, reject) => {
-        getCurrentUser().subscribe((user:User) => {
-            user.solde = new Number(user.solde ).valueOf()+val;
+        getCurrentUser().subscribe((user: User) => {
+            if (new Number(user.solde).valueOf() == 0) reject(null)
+            user.solde = new Number(user.solde).valueOf() + val;
             console.log(user);
             resolve(user);
         });
@@ -54,12 +53,36 @@ export function updateSolde(val: number): Promise<User> {
 }
 
 export function testSameConnectionDay() {
-    console.log(Date.now(), toJSON(localStorage.getItem('hist'))[1])
-    var res = dateDiff(Date.now(), toJSON(localStorage.getItem('hist'))[1]);
-    if (res <= 86400) {
-        console.log(res);
-        return false;
+    //console.log(Date.now(), toJSON(localStorage.getItem('hist')).date)
+    var res;
+    var cuser;
+    getCurrentUser().subscribe(user => cuser = user);
+    Array(toJSON(localStorage.getItem('hist'))).forEach(el => {
+        if (el.user = cuser) {
+            if (dateDiff(Date.now(), el.date) <= 86400) {
+                res = false;
+            } else res = true;
+        }
+    })
+    return res;
+
+}
+
+export function stockHist(user, date?) {
+    var hists = toJSON(localStorage.getItem('hist'))
+    hists.forEach(el => {
+        if (el.user == user) {
+            if (date != null) el.date = date
+        }
+    })
+    localStorage.setItem('hist', toString(hists));
+}
+
+export function addNewUsertoHist(user, date) {
+    var hists = toJSON(localStorage.getItem('hist'));
+    if (hists == null || hists == undefined) {
+        hists = Array();
     }
-    console.log(res)
-    return true;
+    hists.push({ user, date })
+    localStorage.setItem('hist', toString(hists))
 }

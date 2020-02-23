@@ -38,7 +38,7 @@ class Membre implements iUserBehavior
 
   public function signUp(User $user)
   {
-    if ($this->rep->checkUser($user)) {
+    if ($this->rep->checkUser($user->getEmail())) {
       return false;
     }
     $this->rep->addUser($user);
@@ -48,7 +48,9 @@ class Membre implements iUserBehavior
 
   public function signIn($email,$password)
   {
+
     $res=$this->rep->checkAuthUser($email,$password);
+
     if ($res==false) {
       return false;
     }

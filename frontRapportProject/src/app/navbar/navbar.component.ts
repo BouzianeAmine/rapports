@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { getCurrentUser, toJSON ,toString} from '../handlers/userSession';
+import { getCurrentUser, toJSON, toString } from '../handlers/userSession';
 import { User } from '../models/user';
 
 @Component({
@@ -18,6 +18,11 @@ export class NavbarComponent implements OnInit {
   ngOnInit() {
   }
 
+  getSolde() {
+    var solde = 0;
+    getCurrentUser().subscribe(user => { solde = user.solde });
+    return solde;
+  }
   public isAuth() {
     return toJSON(localStorage.getItem('auth'));
   }

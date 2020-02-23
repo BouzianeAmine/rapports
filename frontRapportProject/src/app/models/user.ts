@@ -7,5 +7,5 @@ export interface User {
     telephone:string,
     naissance: string,
     linkedin: string,
-    solde: number,
+    solde?: number,
 }

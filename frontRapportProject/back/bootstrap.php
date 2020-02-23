@@ -74,8 +74,8 @@ $app->post('/addRapport', function(Request $req) use($raprepo){
 
 $app->post('signup', function(Request $req) use($repo){
   $user=User::userFromArray(json_decode($req->getContent(),true));
-  $repo->addUser($user);
-  return json_encode($user);
+  if($repo->addUser($user)) return json_encode($user);
+  return json_encode(false);
 });
 
 $app->post('updateUser',function(Request $req) use($repo){
@@ -86,8 +86,6 @@ $app->post('updateUser',function(Request $req) use($repo){
   return json_encode(false);
 });
 
-$app->get('getAuthUser',function() use($sessions){
-  return json_encode($sessions->getUserConnected());
-});
+
 //$app["cors-enabled"]($app);
 $app->run();

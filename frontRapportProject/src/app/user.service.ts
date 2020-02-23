@@ -1,8 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { User } from './models/user';
-import { toString, soldeBehavior, stockSession, testSameConnectionDay, toJSON } from './handlers/userSession';
-import { resolve } from 'url';
+import { toString, soldeBehavior, stockSession, testSameConnectionDay, toJSON, getCurrentUser, stockHist } from './handlers/userSession';
 
 @Injectable({
   providedIn: 'root'
@@ -17,28 +16,38 @@ export class UserService {
         .then(value => value.json())
         .then((user) => {
           localStorage.setItem('auth', 'true');
-          //tester sur la premiere hist d'aujord'hui avant la connexion
           if (soldeBehavior(user)) {
-            stockSession(user);
-            localStorage.setItem('hist', toString([user, Date.now()]));
+            getCurrentUser().subscribe(user => {
+              stockHist(user, Date.now())
+            })
           } else {
-            console.log("here where it should be instead")
             stockSession(user);
-            localStorage.setItem('hist', toString([user, toJSON(localStorage.getItem('hist'))[1]]));
+            stockHist(user)
           }
-          observer.next(user);
-          observer.complete();
+          getCurrentUser().subscribe(user => {
+            this.update(user).then(cuser => {
+              observer.next(cuser);
+              observer.complete();
+            });
+          })
         })
     })
   }
 
-  update(user) {
+  update(user: User): Promise<any> {
     return new Promise((resolve, reject) => {
       fetch("http://localhost:8000/bootstrap.php/updateUser", { method: 'POST', mode: 'cors', body: toString(user) })
         .then(res => res.json()).then((user: User) => {
           stockSession(user);
           resolve(user);
-        }).catch(err=>reject(err));
+        }).catch(err => reject(err));
+    })
+  }
+
+  signUp(user: User) {
+    return new Promise((resolve, reject) => {
+      fetch("http://localhost:8000/bootstrap.php/signup", { method: 'POST', mode: 'cors', body: toString(user) })
+        .then(res => res.json()).then(user => resolve(user)).catch(err => reject(err));
     })
   }
 }

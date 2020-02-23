@@ -4,6 +4,7 @@ import { Rapport } from '../models/rapport';
 import { getCurrentUser, updateSolde } from '../handlers/userSession';
 import { User } from '../models/user';
 import { UserService } from '../user.service';
+import { RapportService } from '../rapport.service';
 
 
 
@@ -15,18 +16,17 @@ import { UserService } from '../user.service';
 export class RapportsComponent implements OnInit {
   displayedColumns: string[] = ['name', 'filiere', 'sujet', 'data'];
   dataSource: MatTableDataSource<Rapport>;
-  fileBlob: Blob;
   rapports: Array<Rapport>;
-  currentUser: User;
-  constructor(private userService:UserService) {
-    getCurrentUser().subscribe(user=>{this.currentUser=user});
+  constructor(private userService: UserService,private rapportService:RapportService) {
     this.getRapports();
   }
 
   ngOnInit() { }
 
   getRapports() {
-    fetch('http://localhost:8000/bootstrap.php/rapports', { method: 'GET', mode: 'cors' }).then(res => res.json()).then((rapports: Array<Rapport>) => { this.dataSource = new MatTableDataSource(rapports); });
+    this.rapportService.getRapports().subscribe((rapports:Array<Rapport>)=>{
+      this.dataSource = new MatTableDataSource(rapports);
+    })
   }
 
   applyFilter(filterValue: string) {
@@ -34,13 +34,16 @@ export class RapportsComponent implements OnInit {
   }
 
   download() {
-    updateSolde(-1).then(user=>this.userService.update(user));
+    updateSolde(-1).then(user => this.userService.update(user));
   }
 
-  soldeBehave():boolean{
-    if(this.currentUser==null || this.currentUser.solde == 0){
-       return  false;
-    }
-    return true;
+  soldeBehave(): boolean {
+    var res: boolean = null;
+    getCurrentUser().subscribe(user => {
+      if (user == null || user.solde == 0) {
+        res = false;
+      } else res = true;
+    })
+    return res;
   }
 }

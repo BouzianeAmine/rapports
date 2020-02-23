@@ -4,6 +4,7 @@ import { FormGroup, Validators, FormBuilder } from '@angular/forms';
 import { User } from '../models/user';
 import { toJSON, toString, getCurrentUser } from '../handlers/userSession';
 import { UserService } from '../user.service';
+import { RapportService } from '../rapport.service';
 
 export interface rapportDetails {
   filiere: string,
@@ -23,15 +24,15 @@ export class HomeComponent implements OnInit {
   currentUser: User;
   rapport:rapportDetails;
   formData:FormData;
-  constructor(private _formBuilder: FormBuilder,private userSP:UserService) {
+  constructor(private _formBuilder: FormBuilder,private userSP:UserService,private rapportS:RapportService) {
     getCurrentUser().subscribe(user=>{this.currentUser=user});
     this.rapport={"filiere":"","annee":"","encadrant":"","sujet":"","societe":""}
   }
 
   ngOnInit() {
-    fetch('http://localhost:8000/bootstrap.php/rapport', { method: 'POST', mode: 'cors', body: toString(this.currentUser) })
-      .then(res => res.json())
-      .then((value: Array<Rapport>) => this.rapports = value);
+    getCurrentUser().subscribe(user=>{
+      this.rapportS.getRapportsUser(user).subscribe(rapports=>this.rapports=rapports)
+    })
   }
 
   handleFileInput(event) {
@@ -42,11 +43,8 @@ export class HomeComponent implements OnInit {
 
   ajouter(){
     this.formData.append('rapportDetails',toString(this.rapport));
-    fetch("http://localhost:8000/uploader.php", { method: 'POST', mode: 'cors', body: this.formData })
-    .then(res => {
-      if (res.ok) {
-        console.log('the file is uploaded')
-      }
-    })
+    if(this.rapportS.addRapport(this.formData)){
+      prompt("Succefully added");
+    }else prompt("No succ");
   }
 }
